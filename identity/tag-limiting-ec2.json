@@ -1,0 +1,18 @@
+{
+    "Statement": [{
+        "Effect": "Allow",
+        "Action": "ec2:CreateTags",
+        "Resource": "*",
+        "Condition": {
+            "StringEquals": {
+                "ec2:ResourceTag/project": ["blackjack", "poker"]
+            },
+            "ForAllValues:StringEquals": {
+                "aws:TagKeys": ["project", "name"]
+            },
+            "StringEqualsIfExists": {
+                "aws:RequestTag/project": ["blackjack", "poker"],
+            }
+        }
+    }]
+}

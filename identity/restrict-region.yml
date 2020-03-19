@@ -1,0 +1,14 @@
+Version: 2012-10-17
+Statement:
+  - Sid: Stmt1583350818811
+    Action:
+      - "ec2:*"
+      - "lambda:*"
+      - "s3:GetObject"
+    Effect: Allow
+    Resource: "*"
+    Condition:
+      StringEquals:
+        "aws:RequestedRegion":
+          - us-west-2
+          - us-east-2

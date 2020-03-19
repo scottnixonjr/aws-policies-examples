@@ -1,0 +1,56 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [{
+            "Sid": "RunOwnInstances",
+            "Action": [
+                "ec2:RunInstances"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*"
+            ],
+            "Condition": {
+                "ForAllValues:StringEquals": {
+                    "aws:TagKeys": ["project", "name"]
+                },
+                "StringEquals": {
+                    "aws:RequestTag/project": ["${aws:PrincipalTag/project}"],
+                    "aws:RequestedRegion": ["us-east-1"]
+                }
+            }
+        },
+        {
+            "Sid": "StartStopOwnInstances",
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:ResourceTag/project": "${aws:PrincipalTag/project}"
+                }
+            }
+        },
+        {
+            "Sid": "CreateTagsForPrincipalTaggedUsers",
+            "Action": [
+                "ec2:CreateTags"
+            ],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:ResourceTag/project": "${aws:PrincipalTag/project}"
+                },
+                "ForAllValues:StringEquals": {
+                    "aws:TagKeys": ["project", "name"]
+                },
+                "StringEqualsIfExists": {
+                    "aws:RequestTag/project": ["${aws:PrincipalTag/project}"]
+                }
+            }
+        }
+    ]
+}

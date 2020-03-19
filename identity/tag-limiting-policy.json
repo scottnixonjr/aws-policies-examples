@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Sid": "IfCorrectTagsUsed",
+        "Action": [
+            "ec2:CreateTags"
+        ],
+        "Effect": "Allow",
+        "Resource": "*",
+        "Condition": {
+            "StringEquals": {
+                "ec2:CreateAction": "RunInstances"
+            }
+        }
+    }]
+}
