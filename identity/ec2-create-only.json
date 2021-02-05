@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Sid": "Only-Create-Start-Instances-no-destroy",
+        "Effect": "Allow",
+        "Action": [
+            "ec2:Describe*",
+            "autoscaling:Describe*",
+            "ec2:StartInstances",
+            "ec2:CreateTags",
+            "sts:DecodeAuthorizationMessage",
+            "ec2:RunInstances",
+            "elasticloadbalancing:Describe*",
+            "cloudwatch:GetMetricStatistics",
+            "cloudwatch:Describe*",
+            "cloudwatch:ListMetrics"
+        ],
+        "Resource": "*"
+    }]
+}

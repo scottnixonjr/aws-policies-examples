@@ -1,0 +1,60 @@
+{
+    "Statement": {
+        "sid": "AllowViewAccountInfo",
+        "Effect": "Allow",
+        "Actions": [
+            "iam:ListVirtualMFADevices"
+        ],
+        "Resources": [
+            "*"
+        ]
+    },
+    "Statement": {
+        "sid": "AllowManageOwnVirtualMFADevice",
+        "Effect": "Allow",
+        "Actions": [
+            "iam:CreateVirtualMFADevice",
+            "iam:DeleteVirtualMFADevice"
+        ],
+        "Resources": [
+            "arn:aws:iam::*:mfa/$${aws:username}"
+        ]
+    },
+    "Statement": {
+        "sid": "AllowManageOwnUserMFA",
+        "Effect": "Allow",
+        "Actions": [
+            "iam:DeactivateMFADevice",
+            "iam:EnableMFADevice",
+            "iam:GetUser",
+            "iam:ListMFADevices",
+            "iam:ResyncMFADevice"
+        ],
+        "Resources": [
+            "arn:aws:iam::*:user/$${aws:username}"
+        ]
+    },
+    "Statement": {
+        "sid": "DenyAllExceptListedIfNoMFA",
+        "Effect": "Deny",
+        "Not_actions": [
+            "iam:CreateVirtualMFADevice",
+            "iam:EnableMFADevice",
+            "iam:GetUser",
+            "iam:ListMFADevices",
+            "iam:ListVirtualMFADevices",
+            "iam:ResyncMFADevice",
+            "sts:GetSessionToken"
+        ],
+        "Resources": [
+            "*"
+        ],
+        "Condition": {
+            "test": "BoolIfExists"
+            "variable": "aws:MultiFactorAuthPresent"
+            "values": [
+                false
+            ]
+        }
+    }
+}
